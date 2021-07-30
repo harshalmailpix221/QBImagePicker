@@ -89,7 +89,8 @@ NSInteger prevCount = 0;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    total = 0;
+    prevCount = 0;
     // Configure navigation item
     self.navigationItem.title = self.assetCollection.localizedTitle;
     self.navigationItem.prompt = self.imagePickerController.prompt;
