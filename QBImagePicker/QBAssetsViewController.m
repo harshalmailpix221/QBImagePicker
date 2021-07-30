@@ -18,6 +18,11 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
 }
 
+float total = 0;
+bool showEstCost = false;
+NSInteger prevCount = 0;
+
+
 @interface QBImagePickerController (Private)
 
 @property (nonatomic, strong) NSBundle *assetBundle;
@@ -105,12 +110,8 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     // Scroll to bottom
     if (self.fetchResult.count > 0 && self.isMovingToParentViewController && !self.disableScrollToBottom) {
-        // when presenting as a .FormSheet on iPad, the frame is not correct until just after viewWillAppear:
-        // dispatching to the main thread waits one run loop until the frame is update and the layout is complete
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:(self.fetchResult.count - 1) inSection:0];
-            [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        });
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:(self.fetchResult.count - 1) inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
     }
 }
 
@@ -219,8 +220,32 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
             format = NSLocalizedStringFromTableInBundle(@"assets.toolbar.item-selected", @"QBImagePicker", bundle, nil);
         }
         
+        //NSString *title = [NSString stringWithFormat:format, selectedAssets.count];
+        //[(UIBarButtonItem *)self.toolbarItems[1] setTitle:title];
+        
+        
+        //Modification to show Estimated cost
         NSString *title = [NSString stringWithFormat:format, selectedAssets.count];
-        [(UIBarButtonItem *)self.toolbarItems[1] setTitle:title];
+        if(self.imagePickerController.showEstCost)
+        {
+            if(selectedAssets.count == 0)
+                total = 0;
+            if(!self.imagePickerController.multiImageProduct){
+                if(selectedAssets.count > prevCount)
+                    total += self.imagePickerController.estCost;
+                else if(selectedAssets.count < prevCount)
+                    total -= self.imagePickerController.estCost;
+            }
+            else
+                total = self.imagePickerController.estCost;
+            
+            prevCount = selectedAssets.count;
+            
+            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Total: $%.2f", total]];
+            [(UIBarButtonItem *)self.toolbarItems[1] setTitle:modTitle];
+        }
+        else
+            [(UIBarButtonItem *)self.toolbarItems[1] setTitle:title];
     } else {
         [(UIBarButtonItem *)self.toolbarItems[1] setTitle:@""];
     }
@@ -322,7 +347,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         NSArray *assetsToStopCaching = [self assetsAtIndexPaths:removedIndexPaths];
         
         CGSize itemSize = [(UICollectionViewFlowLayout *)self.collectionViewLayout itemSize];
-        CGSize targetSize = CGSizeScale(itemSize, [[UIScreen mainScreen] scale]);
+        CGSize targetSize = CGSizeScale(itemSize, self.traitCollection.displayScale);
         
         [self.imageManager startCachingImagesForAssets:assetsToStartCaching
                                             targetSize:targetSize
@@ -451,7 +476,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     // Image
     PHAsset *asset = self.fetchResult[indexPath.item];
     CGSize itemSize = [(UICollectionViewFlowLayout *)collectionView.collectionViewLayout itemSize];
-    CGSize targetSize = CGSizeScale(itemSize, [[UIScreen mainScreen] scale]);
+    CGSize targetSize = CGSizeScale(itemSize, self.traitCollection.displayScale*4);
     
     [self.imageManager requestImageForAsset:asset
                                  targetSize:targetSize

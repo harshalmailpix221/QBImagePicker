@@ -48,4 +48,8 @@ typedef NS_ENUM(NSUInteger, QBImagePickerMediaType) {
 @property (nonatomic, assign) NSUInteger numberOfColumnsInPortrait;
 @property (nonatomic, assign) NSUInteger numberOfColumnsInLandscape;
 
+@property (nonatomic, assign) BOOL showEstCost;
+@property (nonatomic, assign) BOOL multiImageProduct;
+@property (nonatomic, assign) float estCost;
+
 @end
