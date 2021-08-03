@@ -240,7 +240,7 @@ NSInteger prevCount = 0;
             }
             prevCount = selectedAssets.count;
             
-            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Min. Total: $%.2f", total]];
+            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Total: $%.2f", total]];
             [(UIBarButtonItem *)self.toolbarItems[1] setTitle:modTitle];
         }
         else
