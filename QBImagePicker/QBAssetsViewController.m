@@ -229,20 +229,18 @@ NSInteger prevCount = 0;
         NSString *title = [NSString stringWithFormat:format, selectedAssets.count];
         if(self.imagePickerController.showEstCost)
         {
-            if(selectedAssets.count == 0)
-                total = 0;
             if(!self.imagePickerController.multiImageProduct){
-                if(selectedAssets.count > prevCount)
-                    total += self.imagePickerController.estCost;
-                else if(selectedAssets.count < prevCount)
-                    total -= self.imagePickerController.estCost;
+                total = selectedAssets.count * self.imagePickerController.estCost;
             }
             else
                 total = self.imagePickerController.estCost;
-            
+            if(total >= 150)
+            {
+                [self ShowAlert:@"This order is over $150 in value. Please remove some items before proceeding."];
+            }
             prevCount = selectedAssets.count;
             
-            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Total: $%.2f", total]];
+            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Min. Total: $%.2f", total]];
             [(UIBarButtonItem *)self.toolbarItems[1] setTitle:modTitle];
         }
         else
@@ -252,6 +250,19 @@ NSInteger prevCount = 0;
     }
 }
 
+- (void) ShowAlert:(NSString *)message {
+    int duration = 4;
+    
+    UIAlertView *toast = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:message
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil, nil];
+    [toast show];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [toast dismissWithClickedButtonIndex:0 animated:YES];
+    });
+}
 
 #pragma mark - Fetching Assets
 
