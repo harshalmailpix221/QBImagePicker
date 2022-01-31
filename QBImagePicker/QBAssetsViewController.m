@@ -490,14 +490,20 @@ NSInteger prevCount = 0;
     CGSize itemSize = [(UICollectionViewFlowLayout *)collectionView.collectionViewLayout itemSize];
     CGSize targetSize = CGSizeScale(itemSize, self.traitCollection.displayScale*4);
     
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    options.networkAccessAllowed=YES;
+
     [self.imageManager requestImageForAsset:asset
                                  targetSize:targetSize
                                 contentMode:PHImageContentModeAspectFill
-                                    options:nil
+                                    options:options//nil
                               resultHandler:^(UIImage *result, NSDictionary *info) {
                                   if (cell.tag == indexPath.item && result != nil) {
                                       cell.imageView.image = result;
                                   }
+                                  else if(result == nil){
++                                      NSLog(@"%@",info);
++                                 }
                               }];
     
     // Video indicator
