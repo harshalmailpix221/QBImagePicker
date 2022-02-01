@@ -502,8 +502,8 @@ NSInteger prevCount = 0;
                                       cell.imageView.image = result;
                                   }
                                   else if(result == nil){
-+                                      NSLog(@"%@",info);
-+                                 }
+                                      NSLog(@"%@",info);
+                                  }
                               }];
     
     // Video indicator
