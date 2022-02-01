@@ -230,7 +230,7 @@ NSInteger prevCount = 0;
         if(self.imagePickerController.showEstCost)
         {
             if(!self.imagePickerController.multiImageProduct){
-                total = selectedAssets.count * self.imagePickerController.estCost;
+                total = self.imagePickerController.currTotal + (selectedAssets.count * self.imagePickerController.estCost);
             }
             else
                 total = self.imagePickerController.estCost;

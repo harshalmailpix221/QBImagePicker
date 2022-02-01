@@ -51,5 +51,6 @@ typedef NS_ENUM(NSUInteger, QBImagePickerMediaType) {
 @property (nonatomic, assign) BOOL showEstCost;
 @property (nonatomic, assign) BOOL multiImageProduct;
 @property (nonatomic, assign) float estCost;
+@property (nonatomic, assign) float currTotal;
 
 @end
