@@ -225,26 +225,38 @@ NSInteger prevCount = 0;
         //[(UIBarButtonItem *)self.toolbarItems[1] setTitle:title];
         
         
+        //REMOVING EST TOTAL AND TITLE (No of photos selected)
+        
         //Modification to show Estimated cost
-        NSString *title = [NSString stringWithFormat:format, selectedAssets.count];
-        if(self.imagePickerController.showEstCost)
-        {
-            if(!self.imagePickerController.multiImageProduct){
-                total = self.imagePickerController.currTotal + (selectedAssets.count * self.imagePickerController.estCost);
-            }
-            else
-                total = self.imagePickerController.estCost;
-            if(total >= 150)
-            {
-                [self ShowAlert:@"This order is over $150 in value. Please remove some items before proceeding."];
-            }
-            prevCount = selectedAssets.count;
-            
-            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Total: $%.2f", total]];
-            [(UIBarButtonItem *)self.toolbarItems[1] setTitle:modTitle];
+//        NSString *title = [NSString stringWithFormat:format, selectedAssets.count];
+//        if(self.imagePickerController.showEstCost)
+//        {
+//            if(!self.imagePickerController.multiImageProduct){
+//                total = self.imagePickerController.currTotal + (selectedAssets.count * self.imagePickerController.estCost);
+//            }
+//            else
+//                total = self.imagePickerController.estCost;
+//            if(total >= 150)
+//            {
+//                [self ShowAlert:@"This order is over $150 in value. Please remove some items before proceeding."];
+//            }
+//            prevCount = selectedAssets.count;
+//
+//            NSString *modTitle = [title stringByAppendingString: [NSString stringWithFormat:@" | Est. Total: $%.2f", total]];
+//            [(UIBarButtonItem *)self.toolbarItems[1] setTitle:modTitle];
+//        }
+//        else
+//            [(UIBarButtonItem *)self.toolbarItems[1] setTitle:title];
+        
+        if(!self.imagePickerController.multiImageProduct){
+            total = self.imagePickerController.currTotal + (selectedAssets.count * self.imagePickerController.estCost);
         }
         else
-            [(UIBarButtonItem *)self.toolbarItems[1] setTitle:title];
+            total = self.imagePickerController.estCost;
+        if(total >= 150)
+        {
+            [self ShowAlert:@"This order is over $150 in value. Please remove some items before proceeding."];
+        }
     } else {
         [(UIBarButtonItem *)self.toolbarItems[1] setTitle:@""];
     }
