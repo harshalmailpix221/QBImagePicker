@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .target(
             name: "QBImagePicker",
-            path: "QBImagePicker/Sources",
+            path: "QBImagePicker/QBImagePicker",
             publicHeadersPath: "."
-        )
+	)
     ]
 )
