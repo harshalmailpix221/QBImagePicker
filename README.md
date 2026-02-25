@@ -54,6 +54,13 @@ A clone of UIImagePickerController with multiple selection support.
 2. Run `carthage update`
 3. Add `#import <QBImagePicker/QBImagePicker.h>` to your code
 
+### Swift Package Manager
+
+1. Add the following URL to your Xcode project:
+`https://github.com/harshalmailpix221/QBImagePicker`
+
+2. Select **Up to Next Major Version** and use `4.0.0`.
+
 
 
 ## Usage
