@@ -3,6 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "QBImagePicker",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v9)
     ],
@@ -16,10 +17,9 @@ let package = Package(
             name: "QBImagePicker",
             path: "QBImagePicker",
             resources: [
-                .process("QBImagePicker.storyboard"),
-                .copy("QBImagePicker.bundle")
+                .process("QBImagePicker.storyboard")
             ],
-            publicHeadersPath: "."
+            publicHeadersPath: "include"
         )
     ]
 )

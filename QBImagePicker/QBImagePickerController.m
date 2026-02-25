@@ -41,11 +41,22 @@
         
         _selectedAssets = [NSMutableOrderedSet orderedSet];
         
-        // Get asset bundle
+//        // Get asset bundle
+//        self.assetBundle = [NSBundle bundleForClass:[self class]];
+//        NSString *bundlePath = [self.assetBundle pathForResource:@"QBImagePicker" ofType:@"bundle"];
+//        if (bundlePath) {
+//            self.assetBundle = [NSBundle bundleWithPath:bundlePath];
+//        }
+        
+        // 1. Get the bundle where this class is actually located
         self.assetBundle = [NSBundle bundleForClass:[self class]];
-        NSString *bundlePath = [self.assetBundle pathForResource:@"QBImagePicker" ofType:@"bundle"];
-        if (bundlePath) {
-            self.assetBundle = [NSBundle bundleWithPath:bundlePath];
+
+        // 2. Check if we are in SPM (SPM resources are often in a sub-bundle)
+        NSString *spmBundleName = @"QBImagePicker_QBImagePicker";
+        NSURL *spmBundleURL = [[NSBundle mainBundle] URLForResource:spmBundleName withExtension:@"bundle"];
+
+        if (spmBundleURL) {
+            self.assetBundle = [NSBundle bundleWithURL:spmBundleURL];
         }
         
         [self setUpAlbumsViewController];
