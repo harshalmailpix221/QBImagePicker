@@ -4,19 +4,22 @@ import PackageDescription
 let package = Package(
     name: "QBImagePicker",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v9)
     ],
     products: [
         .library(
             name: "QBImagePicker",
-            targets: ["QBImagePicker"]
-        )
+            targets: ["QBImagePicker"]),
     ],
     targets: [
         .target(
             name: "QBImagePicker",
-            path: "QBImagePicker/QBImagePicker",
+            path: "QBImagePicker",
+            resources: [
+                .process("QBImagePicker.storyboard"),
+                .copy("QBImagePicker.bundle")
+            ],
             publicHeadersPath: "."
-	)
+        )
     ]
 )
